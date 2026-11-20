@@ -6,6 +6,7 @@ Prepare and track US domestic USPS Certified Mail from text or a PDF. The person
 
 - Claude Code. Run `claude --plugin-dir /path/to/agent-package` to load this folder for a session. For a persistent install, run `claude plugin marketplace add legitimate-apps/certified-mail-sender-agent` and then `claude plugin install certified-mail-sender@legitimate-apps`.
 - ChatGPT and Codex. The root `plugin.json`, `mcp.json`, and `skills/` follow the Agent Plugins format. Run `codex plugin marketplace add legitimate-apps/certified-mail-sender-agent` to add the catalog. In the ChatGPT desktop app, open Plugins, select Legitimate LLC, and install Certified Mail Sender. You can also connect directly using the [client setup guide](https://certifiedmailsender.com/assistants).
+- Cline. Add `{"type": "streamableHttp", "url": "https://certifiedmailsender.com/mcp"}` under `mcpServers` in `cline_mcp_settings.json`. [llms-install.md](llms-install.md) has the details for an agent doing the setup.
 - Cursor. Copy this folder into `~/.cursor/plugins/local/` as `certified-mail-sender` and restart Cursor, or add the [MCP URL](https://certifiedmailsender.com/mcp) to your Cursor configuration.
 
 The MCP endpoint is `https://certifiedmailsender.com/mcp`. For clients without MCP, use the [HTTP API](https://certifiedmailsender.com/openapi.json).
