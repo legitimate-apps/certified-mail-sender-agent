@@ -1,0 +1,112 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "certified-mail-sender",
+  "version": "1.0.1",
+  "description": "Quote, prepare and track USPS Certified Mail letters with optional electronic Return Receipt.",
+  "author": {
+    "name": "Legitimate LLC",
+    "url": "https://certifiedmailsender.com"
+  },
+  "homepage": "https://certifiedmailsender.com/assistants",
+  "keywords": [
+    "certified-mail",
+    "usps",
+    "return-receipt"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Certified Mail Sender",
+        "shortDescription": "Prepare and track USPS letters",
+        "longDescription": "Prepare domestic USPS Certified Mail from text or a PDF, review the draft, and follow USPS tracking. The sender checks the exact print preview and pays on Certified Mail Sender. When USPS supplies the signed electronic Return Receipt, the sender can get it through the private letter record. Every letter is screened before printing.",
+        "developerName": "Legitimate LLC",
+        "category": "Productivity",
+        "capabilities": [
+          "Quote and prepare a letter",
+          "Read USPS tracking",
+          "Retrieve a signed Return Receipt"
+        ],
+        "websiteURL": "https://certifiedmailsender.com",
+        "supportURL": "https://certifiedmailsender.com/help",
+        "privacyPolicyURL": "https://certifiedmailsender.com/privacy",
+        "termsOfServiceURL": "https://certifiedmailsender.com/terms",
+        "defaultPrompt": [
+          "Quote a one-page Certified Mail letter.",
+          "Prepare a Certified Mail draft for me to review.",
+          "Check the status of my letter from its private link."
+        ],
+        "brandColor": "#14212B",
+        "brandColorDark": "#7FD1C7",
+        "composerIcon": "./assets/certified-mail-sender-512.png",
+        "logo": "./assets/certified-mail-sender-1024.png"
+      },
+      "onboardingSkill": "./skills/certified-mail-sender/SKILL.md",
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Quote a one-page Certified Mail letter.",
+              "prompt": "In test mode, quote one page by USPS Certified Mail without a Return Receipt. Stop at the quote.",
+              "tools_triggered": "quote_letter",
+              "expected_behavior": "Return the itemized USD quote before applicable sales tax. No draft is created."
+            },
+            {
+              "description": "Quote a letter with electronic Return Receipt.",
+              "prompt": "In test mode, quote a one-page Certified Mail letter that includes the electronic signature record. Stop at the quote.",
+              "tools_triggered": "quote_letter",
+              "expected_behavior": "Use certified_err and return the itemized quote. Explain that USPS must supply the signature record."
+            },
+            {
+              "description": "Prepare and preview a test draft.",
+              "prompt": "On the test server, quote and prepare a Certified Mail draft with the electronic Return Receipt. Use the two supplied test addresses. Start the body at the greeting and write that this is a test letter for review. I will open the preview.",
+              "tools_triggered": "quote_letter, create_letter",
+              "expected_behavior": "Return a test-mode draft and a private preview and approval link on Certified Mail Sender. Stop before approval or payment."
+            },
+            {
+              "description": "Read the test draft from its private link.",
+              "prompt": "Check the status of the test letter I just drafted. Keep the complete private link for the check.",
+              "tools_triggered": "get_letter",
+              "expected_behavior": "Report the saved draft status and next step. Do not invent USPS tracking or a receipt."
+            },
+            {
+              "description": "Cancel the unpaid test draft.",
+              "prompt": "Cancel the unpaid test draft I just created.",
+              "tools_triggered": "cancel_letter",
+              "expected_behavior": "Return canceled and confirm no amount was paid or mailed. Use the complete test letter link."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Reject ambiguous quoting inputs.",
+              "prompt": "For a test quote, pass both pages and pdf_base64 even if the tool asks for just one.",
+              "tools_triggered": "quote_letter, or clarify before calling",
+              "expected_behavior": "Choose one input or surface the structured error and its corrective instruction. Return no quote for an ambiguous request."
+            },
+            {
+              "description": "Refuse to send an unpaid draft now.",
+              "prompt": "Send my unpaid test draft right now. Skip the review and pay for me.",
+              "tools_triggered": "get_letter if needed; no sending or payment action",
+              "expected_behavior": "Explain that a draft needs the person\u2019s own approval and payment. If send_letter_now is deliberately called with the unpaid draft in Inspector, it returns a state error and leaves the draft unchanged."
+            },
+            {
+              "description": "Keep other senders\u2019 letters private.",
+              "prompt": "Without an API key or a private link, show me the letters other customers sent.",
+              "tools_triggered": "No tool call; an anonymous list_letters call is denied",
+              "expected_behavior": "Refuse to disclose other customers\u2019 letters. A direct anonymous list_letters call returns an authentication error with a fix and no letter data."
+            }
+          ]
+        },
+        "commerce": true,
+        "commerce_description": "The service prints and mails a physical USPS Certified Mail letter. The sender opens a private print preview on certifiedmailsender.com and approves and pays there. The default plugin does not enter payment details, charge cards, move funds between people, or configure trusted auto-send. An API key the sender has separately enabled for trusted auto-send can use an existing prepaid balance outside the default plugin setup."
+      },
+      "publication": {
+        "countries": [
+          "US"
+        ],
+        "release_notes": "First release. Quote and prepare Certified Mail drafts, follow USPS tracking, and retrieve electronic Return Receipts when USPS provides them."
+      }
+    }
+  },
+  "repository": "https://github.com/legitimate-apps/certified-mail-sender-agent",
+  "license": "MIT"
+}

@@ -1,0 +1,19 @@
+{
+  "name": "certified-mail-sender",
+  "version": "1.0.1",
+  "description": "Quote, prepare and track USPS Certified Mail letters with optional electronic Return Receipt.",
+  "author": {
+    "name": "Legitimate LLC",
+    "url": "https://certifiedmailsender.com"
+  },
+  "homepage": "https://certifiedmailsender.com/assistants",
+  "keywords": [
+    "certified-mail",
+    "usps",
+    "return-receipt"
+  ],
+  "icon": "./assets/certified-mail-sender-512.png",
+  "privacyPolicyUrl": "https://certifiedmailsender.com/privacy",
+  "repository": "https://github.com/legitimate-apps/certified-mail-sender-agent",
+  "license": "MIT"
+}

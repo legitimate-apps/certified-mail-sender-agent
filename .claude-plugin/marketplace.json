@@ -1,0 +1,12 @@
+{
+  "name": "legitimate-apps",
+  "owner": { "name": "Legitimate LLC" },
+  "metadata": { "description": "Plugins from Legitimate LLC." },
+  "plugins": [
+    {
+      "name": "certified-mail-sender",
+      "source": "./",
+      "description": "Quote, prepare and track USPS Certified Mail letters with optional electronic Return Receipt."
+    }
+  ]
+}

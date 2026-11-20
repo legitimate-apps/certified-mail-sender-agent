@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "certifiedmailsender": {
+      "type": "http",
+      "url": "https://certifiedmailsender.com/mcp"
+    }
+  }
+}
